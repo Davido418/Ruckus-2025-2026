@@ -140,6 +140,10 @@ public class AutoShooter {
         }
         return Double.NaN;
     }
+    public double getTurretPosition() {
+        double value = turret.getCurrentPosition();
+        return value;
+    }
 
 
 

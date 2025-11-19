@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.MAIN;
+import static org.firstinspires.ftc.teamcode.MAIN.AutoFirst.AutoShooter.turret;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -21,6 +23,7 @@ public class Main extends LinearOpMode {
     double ood = 0;
 
     double power = 0;
+    int position = 0;
     public static int time;
     ElapsedTime timer = new ElapsedTime();
     ElapsedTime timer2 = new ElapsedTime();
@@ -162,77 +165,22 @@ public class Main extends LinearOpMode {
                 hardware.outtake_bottom.setPower(0);
                 hardware.outtake_top.setPower(0);
             }
-
-                /*
-
-                if (elapsed < 1000) {
-                    hardware.outtake_bottom.setPower(1);
-                    hardware.outtake_top.setPower(1);
-                } else if (elapsed < 1025) {
-                    hardware.intake.setPower(1);
-                } else if (elapsed < 1100) {
-                    hardware.outtake_bottom.setPower(-1);
-                    hardware.outtake_top.setPower(-1);
-                } else {
-                    hardware.outtake_bottom.setPower(0);
-                    hardware.outtake_top.setPower(0);
-                }
-            } else {
-                // Button released
-                hardware.outtake_bottom.setPower(0);
-                hardware.outtake_top.setPower(0);
-                hardware.intake.setPower(0);
-            }
-            */
-
-            /*if (currentGamepad2.right_bumper || currentGamepad1.right_bumper) {
-                currentState = RobotState.INTAKING;
-            } else if (currentGamepad2.a) {
-                currentState = RobotState.OUTTAKING;
+            //FIX VALUE
+            if(autoShooter.isTracking() && (autoShooter.turret.getCurrentPosition() > 100 || autoShooter.turret.getCurrentPosition() < -100)){
+                turret.setTargetPosition(0);
             }
 
-            if (currentGamepad2.left_bumper) {
-                currentState = RobotState.SHOOTING;
-            }else if(currentGamepad2.right_trigger>0.25){
-                currentState = RobotState.ACC;
-            }
+            int triggerL = (int)Math.floor(gamepad2.left_trigger*10);
+            int triggerR = (int)Math.floor(gamepad2.right_trigger*10);
+            position = position - triggerL + triggerR;
+            hardware.turret.setTargetPosition(position);
 
-
-
-            // --- FSM ACTIONS ---
-            switch (currentState) {
-                case IDLE:
-                    hardware.intake.setPower(0);
-                    hardware.outtake_bottom.setPower(0);
-                    hardware.outtake_top.setPower(0);
-                    break;
-                case INTAKING:
-                    hardware.intake.setPower(1);
-                    //hardware.outtake_bottom.setPower(-0.2);
-                    //hardware.outtake_top.setPower(-0.2);
-                    break;
-                case OUTTAKING:
-                    hardware.intake.setPower(-1);
-                    hardware.outtake_bottom.setPower(-0.2);
-                    hardware.outtake_top.setPower(-0.2);
-                    break;
-
-                case SHOOTING:
-                    //hood set pos
-                    //hardware.intake.setPower(0.1);
-                    hardware.outtake_bottom.setPower(1);
-                    hardware.outtake_top.setPower(1);
-                    break;
-                case ACC:
-                    hardware.intake.setPower(1);
-                    hardware.outtake_bottom.setPower(-0.4);
-                    hardware.outtake_top.setPower(-0.4);
-            }*/
 
             telemetry.addData("State", currentState);
             telemetry.addData("Intake Power", hardware.intake.getPower());
             telemetry.addData("Outtake Bottom", hardware.outtake_bottom.getVelocity());
             telemetry.addData("Outtake Top", hardware.outtake_top.getVelocity());
+            telemetry.addData("Turret Position", autoShooter.getTurretPosition());
             telemetry.update();
         }
     }
