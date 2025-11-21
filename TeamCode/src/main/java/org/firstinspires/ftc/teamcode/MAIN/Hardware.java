@@ -52,7 +52,6 @@ public class Hardware {
 
         turret = hardwareMap.get(DcMotorEx.class, "turret");
         turret.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
         turret.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 

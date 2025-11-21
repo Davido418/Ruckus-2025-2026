@@ -167,15 +167,16 @@ public class Main extends LinearOpMode {
                 hardware.outtake_bottom.setPower(0);
                 hardware.outtake_top.setPower(0);
             }
-            //FIX VALUE
-//            if(!autoShooter.isTracking() && (autoShooter.turret.getCurrentPosition() > 100 || autoShooter.turret.getCurrentPosition() < -100)){
-//                hardware.turret.setTargetPosition(0);
-//            }
+            if(!autoShooter.isTracking() && (autoShooter.turret.getCurrentPosition() > 100 || autoShooter.turret.getCurrentPosition() < -100)){
+                hardware.turret.setTargetPosition(0);
+                hardware.turret.setPower(0.014*(-hardware.turret.getCurrentPosition()));
+                autoShooter.turret.setPower(0.014 * (-autoShooter.gettx()));
+            }
 if(!autoShooter.isTracking()) {
     int triggerL = (int) Math.floor(gamepad2.left_trigger * 10);
     int triggerR = (int) Math.floor(gamepad2.right_trigger * 10);
     position = hardware.turret.getCurrentPosition() - triggerL + triggerR;
-    hardware.turret.setTargetPosition(position);
+    autoShooter.turret.setPower(0.014 * (-autoShooter.gettx()));
 }
 
             telemetry.addData("State", currentState);
