@@ -145,6 +145,25 @@ public class AutoShooter {
         return value;
     }
 
+    public boolean around(){
+        //add buffer
+        if (turret.getCurrentPosition()%()){
+            return true;
+        }//insert %180 equivalent ticks) //set range for ticks and find ticks for 180 degree spin
+                //experiment to get around
+
+        return false;
+    }
+
+    public double go_around(){
+        if(around()){
+            turret.setPower(-0.5);
+            turret.setTargetPosition(0);
+        }
+        return getTurretPosition();
+    }
+
+
 
 
 
