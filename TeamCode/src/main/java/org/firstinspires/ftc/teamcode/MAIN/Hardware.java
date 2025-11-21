@@ -50,7 +50,10 @@ public class Hardware {
         intake = hardwareMap.get(DcMotorEx.class, "intake"); //EXPANSION HUB
 
 
-        turret = hardwareMap.get(DcMotorEx.class, "turret"); //EXPANSION HUBadb
+        turret = hardwareMap.get(DcMotorEx.class, "turret");
+        turret.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+        turret.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
         hood = hardwareMap.get(Servo.class, "hood"); //CONTROL HUB*/

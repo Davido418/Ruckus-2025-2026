@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.MAIN.AutoFirst.AutoShooter.turret;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -43,6 +44,7 @@ public class Main extends LinearOpMode {
         Gamepad prevGamepad2 = new Gamepad();
 
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
+
 
 
 
@@ -166,21 +168,21 @@ public class Main extends LinearOpMode {
                 hardware.outtake_top.setPower(0);
             }
             //FIX VALUE
-            if(autoShooter.isTracking() && (autoShooter.turret.getCurrentPosition() > 100 || autoShooter.turret.getCurrentPosition() < -100)){
-                turret.setTargetPosition(0);
-            }
-
-            int triggerL = (int)Math.floor(gamepad2.left_trigger*10);
-            int triggerR = (int)Math.floor(gamepad2.right_trigger*10);
-            position = position - triggerL + triggerR;
-            hardware.turret.setTargetPosition(position);
-
+//            if(!autoShooter.isTracking() && (autoShooter.turret.getCurrentPosition() > 100 || autoShooter.turret.getCurrentPosition() < -100)){
+//                hardware.turret.setTargetPosition(0);
+//            }
+if(!autoShooter.isTracking()) {
+    int triggerL = (int) Math.floor(gamepad2.left_trigger * 10);
+    int triggerR = (int) Math.floor(gamepad2.right_trigger * 10);
+    position = hardware.turret.getCurrentPosition() - triggerL + triggerR;
+    hardware.turret.setTargetPosition(position);
+}
 
             telemetry.addData("State", currentState);
             telemetry.addData("Intake Power", hardware.intake.getPower());
             telemetry.addData("Outtake Bottom", hardware.outtake_bottom.getVelocity());
             telemetry.addData("Outtake Top", hardware.outtake_top.getVelocity());
-            telemetry.addData("Turret Position", autoShooter.getTurretPosition());
+            telemetry.addData("Turret Position", hardware.turret.getCurrentPosition());
             telemetry.update();
         }
     }
