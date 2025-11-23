@@ -57,7 +57,12 @@ public class Main extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
+
+
+
             autoShooter.turret.setPower(0.014 * (-autoShooter.gettx()));
+
+
             distance = AutoShooter.getDistanceFromLimelightToGoal();
 
             if (autoShooter.isTracking()) {
@@ -91,11 +96,13 @@ public class Main extends LinearOpMode {
             double y = -currentGamepad1.left_stick_y;
             double r = 0.8 * currentGamepad1.right_stick_x;
 
-            double speedGain = (gamepad1.left_trigger < 0.5) ? 2.0 : 1.0;
+            double speedGain = 3;
 
             // Parabolic smoothing
-            x = (Math.cosh(x * Math.sqrt(Math.sqrt(Math.pow(x, 2)))) - 1) * Math.signum(x);
-            y = (Math.cosh(y * Math.sqrt(Math.sqrt(Math.pow(y, 2)))) - 1) * Math.signum(y);
+            //x = (Math.cosh(x * Math.sqrt(Math.sqrt(Math.pow(x, 2)))) - 1) * Math.signum(x);
+            //y = (Math.cosh(y * Math.sqrt(Math.sqrt(Math.pow(y, 2)))) - 1) * Math.signum(y);
+            x = Math.signum(x) * (Math.cosh(Math.abs(x)) - 1);
+            y = Math.signum(y) * (Math.cosh(Math.abs(y)) - 1);
             x *= speedGain;
             y *= speedGain;
             x = Math.max(-1, Math.min(1, x));

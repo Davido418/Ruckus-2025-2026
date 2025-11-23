@@ -190,7 +190,7 @@ public class AutoFirst extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
         Shooter shooter = new Shooter(hardwareMap, autoShooter);
-        Pose2d initialPose = new Pose2d(0, 0, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(62, 20, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         // Pre-start: choose alliance and aim turret
