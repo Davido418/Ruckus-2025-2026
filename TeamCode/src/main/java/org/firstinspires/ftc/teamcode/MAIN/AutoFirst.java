@@ -103,6 +103,9 @@ public class AutoFirst extends LinearOpMode {
                             // Return the tx for *this* tag
                             return result.getTx();
                         }
+                        if (id == 20){
+                            return result.getTx();
+                        }
                     }
                 }
             }
@@ -446,19 +449,22 @@ public class AutoFirst extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
         Shooter shooter = new Shooter(hardwareMap, autoShooter);
-        Pose2d initialPose = new Pose2d(64, 13, Math.toRadians(180));
-        MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
+
+
 
         // Pre-start: choose alliance and aim turret
         int side = 0;
-        /*while (!isStarted() && !isStopRequested()) {
+        int id =0;
+        while (!isStarted() && !isStopRequested()) {
             if (gamepad1.left_bumper) {
                 alliance = Alliance.RED;
+                id = 24;
                 side = 1;
             }
 
             if (gamepad1.right_bumper) {
                 alliance = Alliance.BLUE;
+                id = 20;
                 side = -1;
             }
 
@@ -476,7 +482,10 @@ public class AutoFirst extends LinearOpMode {
 
             telemetry.addData("Alliance", alliance);
             telemetry.update();
-        }*/
+        }
+
+        Pose2d initialPose = new Pose2d(64, side*13, side*Math.toRadians(180));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         waitForStart();
 
@@ -493,9 +502,9 @@ public class AutoFirst extends LinearOpMode {
 
 
         TrajectoryActionBuilder intake1 = drive.actionBuilder(initialPose)
-                .splineToSplineHeading(new Pose2d(40, 18, Math.toRadians(90)), Math.toRadians(100))
-                .splineToSplineHeading(new Pose2d(37, 28, Math.toRadians(90)), Math.toRadians(100))
-                .splineToSplineHeading(new Pose2d(35, 61, Math.toRadians(90)), Math.toRadians(100));
+                .splineToSplineHeading(new Pose2d(40, side*18, side*Math.toRadians(90)), side*Math.toRadians(100))
+                .splineToSplineHeading(new Pose2d(37, side*28, side*Math.toRadians(90)), side*Math.toRadians(100))
+                .splineToSplineHeading(new Pose2d(35, side*61, side*Math.toRadians(90)), side*Math.toRadians(100));
                 //1 Outtake
 
                 //2Intake
@@ -509,35 +518,41 @@ public class AutoFirst extends LinearOpMode {
         //.splineToLinearHeading(new Pose2d(-15, 20, Math.toRadians(135)), Math.toRadians(270))
         TrajectoryActionBuilder outtake_path1 = intake1.endTrajectory().fresh()
                 .setTangent(180)
-                .splineToConstantHeading(new Vector2d(18, 22), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-15, 20, Math.toRadians(140)), Math.toRadians(180));
+                .splineToConstantHeading(new Vector2d(18, side*22), side*Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-15, side*20, side*Math.toRadians(140)), side*Math.toRadians(180));
 
         TrajectoryActionBuilder intake2 = outtake_path1.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToSplineHeading(new Pose2d(0, 20, Math.toRadians(90)), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(12, 35, Math.toRadians(90)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(0, side*20, side*Math.toRadians(90)), side*Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(12, side*35, side*Math.toRadians(90)), side*Math.toRadians(90))
                 //.splineToSplineHeading(new Pose2d(12, 61, Math.toRadians(90)), Math.toRadians(90));
-                .splineToConstantHeading(new Vector2d(12, 44), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(4, 59), Math.toRadians(90));
+                .splineToConstantHeading(new Vector2d(12, side*44),side* Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(4, side*59), side*Math.toRadians(90));
 
 
 
 
         TrajectoryActionBuilder outtake_path2 = intake2.endTrajectory().fresh()
                 .setTangent(270)
-                .splineToConstantHeading(new Vector2d(0, 25), Math.toRadians(220))
+                .splineToConstantHeading(new Vector2d(0, side*25), side*Math.toRadians(220))
                 //.splineToSplineHeading(new Pose2d(0, 22, Math.toRadians(120)), Math.toRadians(220))
-                .splineToSplineHeading(new Pose2d(-15, 20, Math.toRadians(140)), Math.toRadians(200));
+                .splineToSplineHeading(new Pose2d(-15, side*20, side*Math.toRadians(140)), side*Math.toRadians(200));
 
         TrajectoryActionBuilder intake3 = outtake_path2.endTrajectory().fresh()
                 .setTangent(70)
-                .splineToSplineHeading(new Pose2d(-11.2, 26, Math.toRadians(90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-11.2, 55, Math.toRadians(90)), Math.toRadians(90));
+                .splineToSplineHeading(new Pose2d(-11.2, side*26, side*Math.toRadians(90)), side*Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-11.2, side*55, side*Math.toRadians(90)), side*Math.toRadians(90));
 
         TrajectoryActionBuilder outtake_path3 = intake3.endTrajectory().fresh()
                 .setTangent(180)
-                .splineToSplineHeading(new Pose2d(-15, 20, Math.toRadians(140)), Math.toRadians(280));
+                .splineToSplineHeading(new Pose2d(-15, side*20, side*Math.toRadians(140)), side*Math.toRadians(280));
         //.splineToLinearHeading(new Pose2d(-15, 20, Math.toRadians(135)), Math.toRadians(270))
+
+
+
+
+
+
 
 
 
