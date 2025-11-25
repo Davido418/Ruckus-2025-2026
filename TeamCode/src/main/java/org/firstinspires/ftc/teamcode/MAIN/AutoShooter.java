@@ -43,7 +43,7 @@ public class AutoShooter {
                 return result.getTx();
             }
         }
-        return 0;
+        return Double.NaN;
     }
     public double getTxBlue() {
         LLResult result = limelight.getLatestResult();

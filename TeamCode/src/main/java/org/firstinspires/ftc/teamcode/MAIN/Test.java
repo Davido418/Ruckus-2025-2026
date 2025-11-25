@@ -18,7 +18,8 @@ public class Test extends LinearOpMode {
     double ood = 0;
 
     double power = 0;
-    int position = 0;
+
+    public static double position;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,7 +32,7 @@ public class Test extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if (autoShooter.around()){
+            /*if (autoShooter.around()){
                 hardware.turret.setTargetPosition(0);
                 hardware.turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 hardware.turret.setPower(0.4);
@@ -40,7 +41,9 @@ public class Test extends LinearOpMode {
 
             }else{
                 hardware.turret.setPower(0);
-            }
+            }*/
+
+            hardware.hood.setPosition(position);
 
 
             telemetry.addData("Pos", hardware.turret.getCurrentPosition());
