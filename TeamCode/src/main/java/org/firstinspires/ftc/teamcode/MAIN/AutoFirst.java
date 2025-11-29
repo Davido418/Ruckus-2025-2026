@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import java.util.List;
-
+//HELP
 @Config
 @Autonomous
 public class AutoFirst extends LinearOpMode {
