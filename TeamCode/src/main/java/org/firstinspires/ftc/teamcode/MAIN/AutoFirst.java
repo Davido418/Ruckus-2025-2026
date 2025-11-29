@@ -449,6 +449,24 @@ public class AutoFirst extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
         Shooter shooter = new Shooter(hardwareMap, autoShooter);
+        double shootpowfar =0.82;
+        int shootwait =0;
+        int wait1 = 1;
+        int wait2 = 1;
+        double windup1 = 0.5;
+        double windup2 = 0.5;
+        double windup3 = 0.5;
+        double winduppreload = 2.5;
+        int gatetime = 2;
+        double hoodposition =0.4;
+        double in1 =0.1;
+        double in2 = 0.125;
+        double in3 = 0.25;
+        int intakepow = 1;
+        double outtakepow = 0.4;
+        double outtaketime = 0.2;
+        double shootpowclose = 0.62;
+
 
 
 
@@ -523,7 +541,7 @@ public class AutoFirst extends LinearOpMode {
 
         TrajectoryActionBuilder intake2 = outtake_path1.endTrajectory().fresh()
                 .setTangent(0)
-                .splineToSplineHeading(new Pose2d(0, side*20, side*Math.toRadians(90)), side*Math.toRadians(90))
+                //.splineToSplineHeading(new Pose2d(0, side*20, side*Math.toRadians(90)), side*Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(12, side*35, side*Math.toRadians(90)), side*Math.toRadians(90))
                 //.splineToSplineHeading(new Pose2d(12, 61, Math.toRadians(90)), Math.toRadians(90));
                 .splineToConstantHeading(new Vector2d(12, side*44),side* Math.toRadians(90))

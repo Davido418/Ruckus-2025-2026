@@ -1,101 +1,74 @@
 package org.firstinspires.ftc.teamcode.MAIN;
 
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import java.util.List;
+@Config
+@TeleOp(name = "ShooterTest", group = "Test")
+public class ShooterTest extends LinearOpMode {
 
-public class ShooterTest {
-    HardwareMap hardwareMap;
-    static DcMotorEx turret;
+    // ===== DASHBOARD-TUNABLE CONSTANTS =====
 
-    public static int alliance2 = 5;
-    private static Limelight3A limelight;
+    // Set this from Dashboard
+    public static double TARGET_RPM = 0.0;
 
-    static double limelightMountAngleDegrees  = 15;
-    static double limelightLensHeightInches   = 12.1;
-    static double goalHeightInches            = 29.5;
+    // CHANGE this to your actual ticks-per-rev * gear ratio
+    public static double TICKS_PER_REV = 28.0;
 
-    public ShooterTest(HardwareMap hardwareMap) {
-        this.hardwareMap = hardwareMap;
-        turret = hardwareMap.get(DcMotorEx.class, "turret");
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+    // PID gains (tune live)
+    public static double kP = 0.0002;
+    public static double kI = 0.0;
+    public static double kD = 0.0;
 
-        limelight.pipelineSwitch(0);
-        limelight.start();
-    }
+    // Feedforward gains (tune live)
+    public static double kS = 0.05;
+    public static double kV = 0.00003;
 
-    // ---------------- LIMELIGHT HELPERS ----------------
+    // ===== END CONFIG =====
 
-    public double gettx() {
-        LLResult result = limelight.getLatestResult();
-        if (result != null && result.isValid()) return result.getTx();
-        return 0;
-    }
+    private VelocityPIDF shooter;
 
-    public boolean isTracking() {
-        LLResult result = limelight.getLatestResult();
-        return result != null && result.isValid();
-    }
+    @Override
+    public void runOpMode() throws InterruptedException {
 
-    public static double getDistanceFromLimelightToGoal(){
-        LLResult result = limelight.getLatestResult();
-        if(result != null && result.isValid()) {
-            double ty = result.getTy();
-            double angle = Math.toRadians(limelightMountAngleDegrees + ty);
-            return (goalHeightInches - limelightLensHeightInches) / Math.tan(angle);
+        shooter = new VelocityPIDF(
+                hardwareMap,
+                kP, kI, kD,
+                kS, kV
+        );
+
+        telemetry.addLine("ShooterTest (Dashboard)");
+        telemetry.addLine("Set TARGET_RPM, kP, kS, kV from Dashboard");
+        telemetry.update();
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+
+            // Update gains live (Dashboard -> code)
+            shooter.setPID(kP, kI, kD);
+            shooter.setFeedforward(kS, kV);
+
+            // Set velocity target from Dashboard
+            shooter.setTargetVelocityRPM(TARGET_RPM, TICKS_PER_REV);
+
+            // Run controller
+            shooter.update();
+
+            // Telemetry
+            double targetTPS = shooter.getTargetVelocityTPS();
+            double actualTPS = shooter.getCurrentVelocityTPS();
+            double actualRPM = VelocityPIDF.ticksPerSecondToRPM(actualTPS, TICKS_PER_REV);
+
+            telemetry.addData("Target RPM", "%.1f", TARGET_RPM);
+            telemetry.addData("Target TPS", "%.1f", targetTPS);
+            telemetry.addData("Actual TPS", "%.1f", actualTPS);
+            telemetry.addData("Actual RPM", "%.1f", actualRPM);
+
+            telemetry.update();
         }
-        return -1;
+
+        shooter.stop();
     }
-
-    public double gettxBlue() {
-        LLResult result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
-            List<LLResultTypes.FiducialResult> fid = result.getFiducialResults();
-            if (fid != null) {
-                for (LLResultTypes.FiducialResult f : fid) {
-                    if (f.getFiducialId() == 5)
-                        return result.getTx();
-                }
-            }
-        }
-        return 0;
-    }
-
-    public double gettxRed() {
-        LLResult result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
-            List<LLResultTypes.FiducialResult> fid = result.getFiducialResults();
-            if (fid != null) {
-                for (LLResultTypes.FiducialResult f : fid) {
-                    if (f.getFiducialId() == 4)
-                        return result.getTx();
-                }
-            }
-        }
-        return 0;
-    }
-
-    // ---------------- POWER COMPUTATION ----------------
-
-    public double getPower() {
-        if (alliance2 == 5 && isTracking()) {
-            return 0.014 * -gettxRed();
-        } else {
-            return 0.014 * gettxBlue();
-        }
-    }
-
-    // ---------------- MAIN UPDATE FUNCTION ----------------
-
-    public void update() {
-        ShooterTest.turret.setPower(getPower());
-
-
-    }
-
-
 }

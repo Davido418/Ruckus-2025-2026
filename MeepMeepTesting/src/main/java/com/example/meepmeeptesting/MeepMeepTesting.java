@@ -29,7 +29,7 @@ public class MeepMeepTesting {
                 .splineToSplineHeading(new Pose2d(-15, side*20, side*Math.toRadians(140)), side*Math.toRadians(180))
 
                 .setTangent(0)
-                .splineToSplineHeading(new Pose2d(0, side*20, side*Math.toRadians(90)), side*Math.toRadians(90))
+                //.splineToSplineHeading(new Pose2d(0, side*20, side*Math.toRadians(90)), side*Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(12, side*35, side*Math.toRadians(90)), side*Math.toRadians(90))
                 //.splineToSplineHeading(new Pose2d(12, 61, Math.toRadians(90)), Math.toRadians(90));
                 .splineToConstantHeading(new Vector2d(12, side*44),side* Math.toRadians(90))
