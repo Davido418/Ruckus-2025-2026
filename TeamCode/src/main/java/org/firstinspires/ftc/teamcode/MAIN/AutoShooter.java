@@ -43,7 +43,7 @@ public class AutoShooter {
                 return result.getTx();
             }
         }
-        return 0;
+        return Double.NaN;
     }
     public double getTxBlue() {
         LLResult result = limelight.getLatestResult();
@@ -144,6 +144,18 @@ public class AutoShooter {
         double value = turret.getCurrentPosition();
         return value;
     }
+
+    public boolean around(){
+        //add buffer
+        if (turret.getCurrentPosition()>405 || turret.getCurrentPosition()<-405){
+            return true;
+        }
+        //insert %180 equivalent ticks) //set range for ticks and find ticks for 180 degree spin
+                //experiment to get around
+
+        return false;
+    }
+
 
 
 
