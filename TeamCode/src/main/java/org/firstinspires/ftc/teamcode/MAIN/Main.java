@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.MAIN;
 import static org.firstinspires.ftc.teamcode.MAIN.AutoFirst.AutoShooter.turret;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -59,8 +57,9 @@ public class Main extends LinearOpMode {
 
 
 
+// adding both by limelight and odometry
+           autoShooter.turret.setPower(0.014 * (-autoShooter.gettx()));
 
-            autoShooter.turret.setPower(0.014 * (-autoShooter.gettx()));
 
 
             distance = AutoShooter.getDistanceFromLimelightToGoal();

@@ -1,9 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.MAIN;
 
-import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.MAIN.AutoFirst;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 public class Odometry {
