@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Test")
 @Config
 public class Test extends LinearOpMode {
-    public static int pos = 0;
+    public static double pos = 0.35;
     @Override
     public void runOpMode() throws InterruptedException {
 
