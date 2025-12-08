@@ -16,6 +16,8 @@ public class Test extends LinearOpMode {
         Hardware hardware = new Hardware(hardwareMap);
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
         hardware.hood.setPosition(pos);
+        hardware.outtake_bottom.setPower(1);
+        hardware.outtake_top.setPower(1);
 
         }
     }

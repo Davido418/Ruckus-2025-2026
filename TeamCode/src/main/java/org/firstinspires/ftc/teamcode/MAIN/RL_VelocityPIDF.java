@@ -33,11 +33,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
             hardware.outtake_bottom.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfNewBottom);
             hardware.outtake_top.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfNewTop);
             waitForStart();
-            hardware.outtake_bottom.setVelocity(velocity);
-            hardware.outtake_top.setVelocity(velocity);
-            telemetry.addData("outtake top Velocity in t/s", hardware.outtake_top.getVelocity());
-            telemetry.addData("outtake bottom Velocity in t/s", hardware.outtake_bottom.getVelocity());
-            telemetry.update();
+            while(opModeIsActive()) {
+                hardware.outtake_bottom.setVelocity(velocity);
+                hardware.outtake_top.setVelocity(velocity);
+                telemetry.addData("outtake top Velocity in t/s", hardware.outtake_top.getVelocity());
+                telemetry.addData("outtake bottom Velocity in t/s", hardware.outtake_bottom.getVelocity());
+                telemetry.update();
+            }
         }
     }
 
