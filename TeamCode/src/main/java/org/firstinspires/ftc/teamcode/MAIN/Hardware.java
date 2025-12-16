@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.MAIN;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware {
@@ -21,6 +23,10 @@ public class Hardware {
     public DcMotorEx intake;
     public DcMotorEx turret;
     public Servo hood;
+    int P = 3;
+    public int max_ticks_per_second = 2500;
+    public double F = 32767/max_ticks_per_second;
+
 
 
     public Hardware(HardwareMap hardwareMap){
@@ -43,12 +49,20 @@ public class Hardware {
         //FR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         //BL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         //BR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); //we dont need this for now
-
-
-        outtake_top = hardwareMap.get(DcMotorEx.class, "outtake_top"); //EXPANSION HUB
-        outtake_bottom = hardwareMap.get(DcMotorEx.class, "outtake_bottom"); //EXPANSION HUB
         intake = hardwareMap.get(DcMotorEx.class, "intake"); //EXPANSION HUB
 
+        Hardware hardware = new Hardware(hardwareMap);
+        AutoShooter autoShooter = new AutoShooter(hardwareMap);
+        outtake_top = hardwareMap.get(DcMotorEx.class, "outtake_top"); //EXPANSION HUB
+        outtake_top.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake_top.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        outtake_bottom = hardwareMap.get(DcMotorEx.class, "outtake_bottom"); //EXPANSION HUB
+        outtake_bottom.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        outtake_bottom.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        PIDFCoefficients pidf= new PIDFCoefficients(P,0,0,F);
+        outtake_top.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidf);
+        outtake_bottom.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidf);
 
         turret = hardwareMap.get(DcMotorEx.class, "turret");
         turret.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);

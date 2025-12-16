@@ -17,6 +17,7 @@ public class testOpMode extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             test.setPosition(1);
+
         }
 
     }
