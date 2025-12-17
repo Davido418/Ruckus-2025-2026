@@ -18,11 +18,12 @@ public class Test extends LinearOpMode {
     public static double pos = 0.35;
     DcMotorEx outtake_top, outtake_bottom;
 
-    public static double velocity;
+    public static double velocity = 2000;
     private FtcDashboard dash = FtcDashboard.getInstance();
 
     public static int max_ticks_per_second = 2500;
-    public static double F = 32767/max_ticks_per_second;
+    public static double F = 32767.0 / max_ticks_per_second;
+
 
     public static double P = 3;
 
@@ -33,24 +34,30 @@ public class Test extends LinearOpMode {
         Hardware hardware = new Hardware(hardwareMap);
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
         outtake_top = hardwareMap.get(DcMotorEx.class, "outtake_top"); //EXPANSION HUB
-        outtake_top.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake_top.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        outtake_top.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        outtake_top.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         outtake_bottom = hardwareMap.get(DcMotorEx.class, "outtake_bottom"); //EXPANSION HUB
-        outtake_bottom.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake_bottom.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        outtake_bottom.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        outtake_bottom.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         PIDFCoefficients pidf= new PIDFCoefficients(P,0,0,F);
-        outtake_top.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidf);
-        outtake_bottom.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidf);
+        outtake_top.setVelocityPIDFCoefficients(P, 0, 0, F);
+        outtake_bottom.setVelocityPIDFCoefficients(P, 0, 0, F);
+        outtake_bottom.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidf);
+        outtake_top.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidf);
 
         waitForStart();
         while(opModeIsActive()) {
             outtake_top.setVelocity(velocity);
             outtake_bottom.setVelocity(velocity);
-            TelemetryPacket packet = new TelemetryPacket();
-            packet.put("velocity top", outtake_top.getVelocity());
-            packet.put("velocity bottom", outtake_bottom.getVelocity());
-            dash.sendTelemetryPacket(packet);
+//            TelemetryPacket packet = new TelemetryPacket();
+//            packet.put("velocity top", outtake_top.getVelocity());
+//            packet.put("velocity bottom", outtake_bottom.getVelocity());
+//            dash.sendTelemetryPacket(packet);
+            telemetry.addData("velocity top", outtake_top.getVelocity());
+            telemetry.addData("velocity bottom", outtake_bottom.getVelocity());
+            telemetry.update();
+            idle();
         }
         }
     }
