@@ -11,13 +11,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Main extends LinearOpMode {
 
 
-    enum RobotState {
-        IDLE,
-        INTAKING,
-        OUTTAKING,
-        SHOOTING,
-        ACC
-    }
     int state = 0;
     double ood = 0;
 
