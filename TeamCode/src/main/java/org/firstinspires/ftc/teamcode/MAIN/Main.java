@@ -21,8 +21,7 @@ public class Main extends LinearOpMode {
     ElapsedTime timer2 = new ElapsedTime();
 
     double sticky2;
-    double distance;
-    RobotState currentState = RobotState.IDLE;
+    public double distance;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -34,6 +33,7 @@ public class Main extends LinearOpMode {
         Gamepad prevGamepad1 = new Gamepad();
         Gamepad prevGamepad2 = new Gamepad();
 
+        
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
 
 
@@ -114,7 +114,6 @@ public class Main extends LinearOpMode {
             }
 
 
-            currentState = RobotState.IDLE;
 
             // --- Intake logic ---
             if (currentGamepad2.right_bumper || currentGamepad1.right_bumper) {
@@ -178,7 +177,6 @@ if(!autoShooter.isTracking()) {
     turret.setPower(0.01 * (-autoShooter.gettx()));
 }
 
-            telemetry.addData("State", currentState);
             telemetry.addData("Intake Power", hardware.intake.getPower());
             telemetry.addData("Outtake Bottom", hardware.outtake_bottom.getVelocity());
             telemetry.addData("Outtake Top", hardware.outtake_top.getVelocity());
