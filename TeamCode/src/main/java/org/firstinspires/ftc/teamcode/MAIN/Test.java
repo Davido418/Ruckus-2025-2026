@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "Test")
 @Config
 public class Test extends LinearOpMode {
-    public static double pos = 0.35;
+    public static double pos = 0.45;
     DcMotorEx outtake_top, outtake_bottom,intake;
     Servo hood;
 
@@ -54,15 +54,18 @@ public class Test extends LinearOpMode {
         outtake_bottom.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidf);
         outtake_top.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidf);
         hood.setPosition(pos);
+        distance = AutoShooter.getDistanceFromLimelightToGoal();
 
         while(!opModeIsActive()){
             telemetry.addData("hi",timer.milliseconds());
+            telemetry.addData("distance", distance);
             telemetry.update();
         }
+
         waitForStart();
 
         while(opModeIsActive()) {
-            distance = AutoShooter.getDistanceFromLimelightToGoal();
+
             outtake_top.setVelocity(velocity);
             outtake_bottom.setVelocity(velocity);
             intake.setPower(0.4);
@@ -73,7 +76,7 @@ public class Test extends LinearOpMode {
 //            dash.sendTelemetryPacket(packet);
             telemetry.addData("velocity top", outtake_top.getVelocity());
             telemetry.addData("velocity bottom", outtake_bottom.getVelocity());
-            telemetry.addData("distance", distance);
+            //telemetry.addData("distance", distance);
             telemetry.addLine("Hi!");
             telemetry.update();
             //idle();
