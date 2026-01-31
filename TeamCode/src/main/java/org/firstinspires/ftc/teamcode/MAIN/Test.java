@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -24,6 +25,7 @@ public class Test extends LinearOpMode {
 
     public static int max_ticks_per_second = 2500;
     public static double F = 13.1068;
+    CRServo servo1, servo2, servo3, servo4;
 
 
     public static double P = 0.015;
@@ -33,52 +35,19 @@ public class Test extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {timer.reset();
 
-        AutoShooter autoShooter = new AutoShooter(hardwareMap);
-
-//        Hardware hardware = new Hardware(hardwareMap);
-//        AutoShooter autoShooter = new AutoShooter(hardwareMap);
-        outtake_top = hardwareMap.get(DcMotorEx.class, "outtake_top"); //EXPANSION HUB
-        hood = hardwareMap.get(Servo.class, "hood");
-        outtake_top.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        outtake_top.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-//
-        outtake_bottom = hardwareMap.get(DcMotorEx.class, "outtake_bottom"); //EXPANSION HUB
-        outtake_bottom.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        outtake_bottom.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        intake = hardwareMap.get(DcMotorEx.class, "intake"); //EXPANSION HUB
-        intake.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        intake.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        PIDFCoefficients pidf= new PIDFCoefficients(P,0,0,F);
-        outtake_top.setVelocityPIDFCoefficients(P, 0, 0, F);
-        outtake_bottom.setVelocityPIDFCoefficients(P, 0, 0, F);
-        outtake_bottom.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidf);
-        outtake_top.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidf);
-        hood.setPosition(pos);
-        distance = AutoShooter.getDistanceFromLimelightToGoal();
-
-        while(!opModeIsActive()){
-            telemetry.addData("hi",timer.milliseconds());
-            telemetry.addData("distance", distance);
-            telemetry.update();
-        }
+        servo1 = hardwareMap.get(CRServo.class, "servo1");
+        servo2 = hardwareMap.get(CRServo.class, "servo2");
+        servo3 = hardwareMap.get(CRServo.class, "servo3");
+        servo4 = hardwareMap.get(CRServo.class, "servo4");
 
         waitForStart();
 
         while(opModeIsActive()) {
 
-            outtake_top.setVelocity(velocity);
-            outtake_bottom.setVelocity(velocity);
-            intake.setPower(0.4);
-
-//            TelemetryPacket packet = new TelemetryPacket();
-//            packet.put("velocity top", outtake_top.getVelocity());
-//            packet.put("velocity bottom", outtake_bottom.getVelocity());
-//            dash.sendTelemetryPacket(packet);
-            telemetry.addData("velocity top", outtake_top.getVelocity());
-            telemetry.addData("velocity bottom", outtake_bottom.getVelocity());
-            //telemetry.addData("distance", distance);
-            telemetry.addLine("Hi!");
-            telemetry.update();
+            servo1.setPower(1);
+            servo2.setPower(1);
+            servo3.setPower(1);
+            servo4.setPower(1);
             //idle();
         }
         }

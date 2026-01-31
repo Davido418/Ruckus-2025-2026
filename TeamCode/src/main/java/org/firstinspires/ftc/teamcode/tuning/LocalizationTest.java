@@ -17,6 +17,8 @@ public class LocalizationTest extends LinearOpMode {
     public static double field_angle = 0;
     public static double startingX = 0;
     public static double startingY = 0;
+    public static double x_final;
+    public static double y_final;
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -38,8 +40,8 @@ public class LocalizationTest extends LinearOpMode {
                 drive.updatePoseEstimate();
 
                 Pose2d pose = drive.localizer.getPose();
-                double x_final = pose.position.y*Math.cos(field_angle*Math.PI/180)-pose.position.x*Math.sin(field_angle*Math.PI/180)+startingX;
-                double y_final = pose.position.y*Math.sin(field_angle*Math.PI/180)+pose.position.x*Math.cos(field_angle*Math.PI/180)+startingY;
+                x_final = pose.position.y*Math.cos(field_angle*Math.PI/180)-pose.position.x*Math.sin(field_angle*Math.PI/180)+startingX;
+                y_final = pose.position.y*Math.sin(field_angle*Math.PI/180)+pose.position.x*Math.cos(field_angle*Math.PI/180)+startingY;
                 telemetry.addData("x", y_final);
                 telemetry.addData("y", x_final);
                 telemetry.addData("heading (deg)", -Math.toDegrees(pose.heading.toDouble()));

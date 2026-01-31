@@ -69,6 +69,5 @@ public class Hardware {
         turret.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
-        hood = hardwareMap.get(Servo.class, "hood"); //CONTROL HUB*/
     }
 }
