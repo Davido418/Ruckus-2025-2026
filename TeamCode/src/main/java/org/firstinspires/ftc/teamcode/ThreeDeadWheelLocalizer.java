@@ -56,6 +56,20 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
 
         pose = initialPose;
     }
+    public void rebaseline(Pose2d newPose) {
+        pose = newPose;
+
+        PositionVelocityPair par0PV = par0.getPositionAndVelocity();
+        PositionVelocityPair par1PV = par1.getPositionAndVelocity();
+        PositionVelocityPair perpPV = perp.getPositionAndVelocity();
+
+        lastPar0Pos = par0PV.position;
+        lastPar1Pos = par1PV.position;
+        lastPerpPos = perpPV.position;
+
+        // DO NOT touch `initialized`
+    }
+
 
     @Override
     public void setPose(Pose2d pose) {
