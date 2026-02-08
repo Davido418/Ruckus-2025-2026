@@ -25,47 +25,33 @@ public class Main extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         Hardware hardware = new Hardware(hardwareMap);
-
         Gamepad currentGamepad1 = new Gamepad();
         Gamepad currentGamepad2 = new Gamepad();
         Gamepad prevGamepad1 = new Gamepad();
         Gamepad prevGamepad2 = new Gamepad();
-
-        
         AutoShooter autoShooter = new AutoShooter(hardwareMap);
-
-
-
 
         waitForStart();
 
         while (opModeIsActive()) {
-            // copy gamepad states
             prevGamepad1.copy(currentGamepad1);
             prevGamepad2.copy(currentGamepad2);
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-
-
-// adding both by limelight and odometry
-           autoShooter.turret.setPower(0.014 * (-autoShooter.gettx()));
-
-
+            autoShooter.turret.setPower(0.014 * (-autoShooter.gettx()));
 
             distance = AutoShooter.getDistanceFromLimelightToGoal();
-
             if (autoShooter.isTracking()) {
                 gamepad1.rumble(Gamepad.RUMBLE_DURATION_CONTINUOUS);
                 gamepad2.rumble(Gamepad.RUMBLE_DURATION_CONTINUOUS);
                 telemetry.addData("Distance", AutoShooter.getDistanceFromLimelightToGoal());
-
             } else {
                 gamepad1.stopRumble();
                 gamepad2.stopRumble();
             }
+
 
             if (29.5<=distance && distance<=43.5){
                 hardware.hood.setPosition(0.35);
